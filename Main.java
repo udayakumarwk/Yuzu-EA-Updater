@@ -114,18 +114,14 @@ public class Main {
             new File(newPath).mkdir();
             Enumeration zipFileEntries = zip.entries();
 
-            // Process each entry
             while (zipFileEntries.hasMoreElements())
             {
-                // grab a zip file entry
                 ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
                 String currentEntry = entry.getName();
 
                 File destFile = new File(newPath, currentEntry);
-                //destFile = new File(newPath, destFile.getName());
                 File destinationParent = destFile.getParentFile();
 
-                // create the parent directory structure if needed
                 destinationParent.mkdirs();
 
                 if (!entry.isDirectory())
@@ -133,15 +129,12 @@ public class Main {
                     BufferedInputStream is = new BufferedInputStream(zip
                             .getInputStream(entry));
                     int currentByte;
-                    // establish buffer for writing file
                     byte data[] = new byte[BUFFER];
 
-                    // write the current file to disk
                     FileOutputStream fos = new FileOutputStream(destFile);
                     BufferedOutputStream dest = new BufferedOutputStream(fos,
                             BUFFER);
 
-                    // read and write until last byte is encountered
                     while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
                         dest.write(data, 0, currentByte);
                     }
@@ -168,18 +161,13 @@ public class Main {
     }
     public static void deleteDirectory(File file)
     {
-        // store all the paths of files and folders present
-        // inside directory
         if(!file.exists())return;
         for (File subfile : file.listFiles()) {
 
-            // if it is a subfolder,e.g Rohan and Ritik,
-            //  recursively call function to empty subfolder
             if (subfile.isDirectory()) {
                 deleteDirectory(subfile);
             }
 
-            // delete files and empty subfolders
             subfile.delete();
         }
     }
@@ -230,14 +218,6 @@ public class Main {
 
     }
 
-    private static void downloadUsingNIO(String urlStr, String file) throws IOException {
-        URL url = new URL(urlStr);
-        ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-        fos.close();
-        rbc.close();
-    }
 
     private static void updatedConfig(String toWrite) throws IOException {
         Path fileName
