@@ -57,19 +57,29 @@ public class Main {
         System.out.println(sb.toString());
 
         if(!isOutdated(sb.toString())){
+            if(isWindows()){
             if(launchYuzu()){
                 System.out.println("Launching yuzu.exe successful");
                 return;
             }else{
                 System.out.println("Re-downloading yuzu-ea");
             }
-
         }
 
-        String downloadLink = "https://github.com/pineappleEA/pineapple-src/releases/download/"+sb.toString().trim()+"/Windows-Yuzu-"+sb.toString().trim()+".zip";
+        }
+        String downloadLink;
+        File file;
+        if (isWindows()) {
+            downloadLink = "https://github.com/pineappleEA/pineapple-src/releases/download/"+sb.toString().trim()+"/Windows-Yuzu-"+sb.toString().trim()+".zip";
+					
+					file = new File("yuzu-update.zip");
+				} else {
+					 downloadLink = "https://github.com/pineappleEA/pineapple-src/releases/download/"+sb.toString().trim()+"/Linux-Yuzu-"+sb.toString().trim()+".Appimage";
+					file = new File("yuzu.Appimage");
+				}
         System.out.println(downloadLink);
 
-        File file = new File("yuzu-update.zip");
+        
         if(file.exists()){
             file.delete();
             file.createNewFile();
@@ -83,6 +93,7 @@ public class Main {
         updatedConfig(sb.toString());
 
 
+        if(isWindows()){
         System.out.println("Extracting "+file.getName());
         String destDir = "./Yuzu";
         File destDirFile = new File(destDir);
@@ -92,6 +103,7 @@ public class Main {
         unzip(file.getAbsolutePath(), destDir);
         launchYuzu();
     }
+    }
 
     private static void checkStartUp() throws IOException {
         File config = new File("config");
@@ -100,6 +112,9 @@ public class Main {
         }
     }
 
+    private static boolean isWindows() {
+		return System.getProperty("os.name").toLowerCase().contains("windows");
+	}
 
     private static void unzip(String zipFile,String extractFolder)
     {
