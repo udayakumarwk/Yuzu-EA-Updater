@@ -5,7 +5,7 @@
 *Requires Java.
 <br/>
 <h2>How to use:</h2>
-For command line app: launch the bat file in root DIR.<br /> 
+For command line app: launch the bat or .sh file in root DIR.<br /> 
 For Windows GUI app : Extract the zip(YuzuUpdaterGUI.zip) and launch bat file present inside the zip.<br />
 For Linux GUI app: Extract the zip(YuzuUpdaterGUI.zip) and launch .sh file present inside the zip.
 <br/>
